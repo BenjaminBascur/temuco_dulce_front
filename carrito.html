@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito | Temuco Dulce</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍰</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .nav-tabs .nav-link.active {
+            color: #d63384 !important;
+            border-color: #dee2e6 #dee2e6 #fff !important;
+        }
+        .nav-tabs .nav-link {
+            color: #6c757d !important;
+        }
+        
+        /* ESTILOS BOTÓN VOLVER ARRIBA */
+        #btnVolverArriba {
+            position: fixed;
+            bottom: 90px; 
+            left: 20px; 
+            width: 50px;
+            height: 50px;
+            display: none; 
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 1000;
+            border-radius: 50%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #btnVolverArriba:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(214, 51, 132, 0.4) !important;
+        }
+
+        /* TRANSICIÓN SUAVE PARA LA MASCOTA */
+        .burbuja-saludo {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* EFECTO HOVER PARA REDES SOCIALES */
+        .link-social {
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        .link-social:hover { transform: translateY(-3px); }
+        .icon-facebook:hover { color: #1877F2 !important; }
+        .icon-instagram:hover { color: #E4405F !important; }
+        .icon-github:hover { color: #333 !important; }
+    </style>
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+        <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="text-center">
+            <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+            <h4 class="text-titulos fw-bold">Preparando Experiencia Personalizada...</h4>
+        </div>
+    </div>
+
+    <!-- NAVBAR UNIFICADO -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-reposteria shadow py-3">
+            <div class="container">
+                <a class="navbar-brand fw-bold fs-3 text-white" href="index.html">🍰 Temuco Dulce</a>
+                <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menuNavegacion">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fs-5">
+                        <li class="nav-item px-2"><a class="nav-link text-white" href="index.html">Inicio</a></li>
+                        <li class="nav-item px-2"><a class="nav-link text-white" href="index.html#productos">Catálogo</a></li>
+                        <li class="nav-item px-2"><a class="nav-link text-white" href="nosotros.html">Nosotros</a></li>
+                    </ul>
+
+                    <ul class="navbar-nav align-items-center">
+                        <li class="nav-item me-lg-4 mb-2 mb-lg-0">
+                            <a class="btn btn-outline-light position-relative d-flex align-items-center px-3 py-2 rounded-pill active" href="carrito.html">
+                                <i class="bi bi-basket-fill fs-5 me-2"></i> Mi Carrito
+                                <span id="contador-carrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown" id="menuUsuario" style="display: none;">
+                            <a class="nav-link dropdown-toggle text-white fw-bold d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle fs-4 me-2"></i> <span id="nombreNav">Usuario</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
+                                <li><a class="dropdown-item py-2 fw-semibold text-secondary" href="mi-cuenta.html"><i class="bi bi-person-vcard me-2 text-primary"></i>Mi Cuenta</a></li>
+                                <li><a class="dropdown-item py-2 fw-semibold text-secondary" href="pedidos.html"><i class="bi bi-bag-check me-2 text-primary"></i>Mis Pedidos</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><button class="dropdown-item py-2 fw-bold text-danger" onclick="cerrarSesion()"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</button></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item" id="botonLoginNav">
+                            <a class="btn btn-light fw-bold text-primary rounded-pill px-4" href="#" data-bs-toggle="modal" data-bs-target="#modalPago">
+                                <i class="bi bi-person me-1"></i> Iniciar Sesión
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container my-5 py-5 bg-white rounded-5 shadow-sm flex-grow-1">
+        <div class="row mb-4 align-items-center">
+            <div class="col-8"><h2 class="text-titulos">Tu Carrito de Compras</h2></div>
+            <div class="col-4 text-end">
+                <a href="index.html" class="btn btn-outline-secondary btn-sm rounded-pill px-3"><i class="bi bi-arrow-left me-1"></i>Seguir Comprando</a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Tabla de Productos -->
+            <div class="col-lg-8">
+                <div class="table-responsive mb-4">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light text-titulos">
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col" class="text-center">Cantidad</th>
+                                <th scope="col">Subtotal</th>
+                                <th scope="col" class="text-center">Quitar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-carrito"></tbody>
+                    </table>
+                </div>
+
+                <!-- SECCIÓN CROSS-SELLING -->
+                <div class="row mt-5 pt-4 border-top d-none d-lg-flex" id="seccionSugerencias">
+                    <div class="col-12 mb-4">
+                        <h4 class="text-titulos fw-bold"><i class="bi bi-stars text-warning me-2"></i>Completa tu pedido</h4>
+                        <p class="text-muted small">Te sugerimos estas delicias de nuestro catálogo para acompañar tu compra:</p>
+                    </div>
+                    <div class="row g-3" id="contenedor-sugerencias-dinamicas"></div>
+                </div>
+            </div>
+            
+            <!-- Resumen de Compra -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 p-3 bg-light rounded-4 sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-titulos text-center mb-4">Resumen de compra</h5>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4 fs-5">
+                            <span class="text-muted">Total (CLP):</span>
+                            <strong id="total-carrito" class="text-titulos fs-3">$0</strong>
+                        </div>
+                        <button class="btn btn-primary btn-lg rounded-pill w-100 mb-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalPago">
+                            <i class="bi bi-credit-card-2-back me-2"></i>Proceder al pago
+                        </button>
+                        <button onclick="confirmarVaciarCarrito()" class="btn btn-outline-danger btn-sm rounded-pill w-100">Vaciar carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL DE PAGO (LOGIN/REGISTRO Y ENVÍO) -->
+    <div class="modal fade" id="modalPago" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow border-0">
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title fs-5 text-titulos fw-bold" id="tituloModal">Accede para continuar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                
+                <div class="modal-body p-4 pt-2">
+                    <!-- SECCIÓN AUTENTICACIÓN -->
+                    <div id="seccionAuth">
+                        <ul class="nav nav-tabs card-header-tabs w-100 border-bottom-0 mb-3" id="authTabsCarrito" role="tablist">
+                            <li class="nav-item"><button class="nav-link active fw-bold px-4" id="login-tab-carrito" data-bs-toggle="tab" data-bs-target="#login-panel-carrito" type="button" role="tab">Ingresar</button></li>
+                            <li class="nav-item"><button class="nav-link fw-bold px-4" id="registro-tab-carrito" data-bs-toggle="tab" data-bs-target="#registro-panel-carrito" type="button" role="tab">Crear Cuenta</button></li>
+                        </ul>
+                        <div class="tab-content" id="authTabsContentCarrito">
+                            <!-- TAB INGRESAR -->
+                            <div class="tab-pane fade show active" id="login-panel-carrito" role="tabpanel">
+                                <form id="formLoginCarrito" class="needs-validation" novalidate>
+                                    <div class="mb-3"><label class="form-label small fw-bold text-muted">Correo Electrónico</label><input type="email" class="form-control" required></div>
+                                    <div class="mb-4"><label class="form-label small fw-bold text-muted">Contraseña</label><input type="password" class="form-control" required></div>
+                                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">Entrar a mi cuenta</button>
+                                </form>
+                            </div>
+                            <!-- TAB CREAR CUENTA CON BOTÓN VER CONTRASEÑA -->
+                            <div class="tab-pane fade" id="registro-panel-carrito" role="tabpanel">
+                                <form id="formRegistroCarrito" class="needs-validation" novalidate>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3"><label class="form-label small fw-bold text-muted">Nombre</label><input type="text" id="regNombre" class="form-control" required></div>
+                                        <div class="col-md-6 mb-3"><label class="form-label small fw-bold text-muted">Apellidos</label><input type="text" id="regApellido" class="form-control" required></div>
+                                    </div>
+                                    <div class="mb-3"><label class="form-label small fw-bold text-muted">Correo Electrónico</label><input type="email" class="form-control" id="regEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required></div>
+                                    <div class="mb-4">
+                                        <label class="form-label small fw-bold text-muted">Contraseña</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="regPassword" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8}$" minlength="8" maxlength="8" required>
+                                            <button class="btn btn-outline-secondary" type="button" id="btnVerPassword" title="Mostrar/Ocultar contraseña">
+                                                <i class="bi bi-eye" id="iconoVerPassword"></i>
+                                            </button>
+                                            <div class="invalid-feedback mt-1 w-100" style="font-size: 0.75rem;">Debe tener 1 Mayúscula, 1 Número, 1 Símbolo y exactamente 8 caracteres.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-check mb-4">
+                                        <input class="form-check-input" type="checkbox" id="checkTerminos" required>
+                                        <label class="form-check-label small text-muted" for="checkTerminos">He leído y acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#modalTerminos" class="text-primary text-decoration-none fw-bold">Términos y Condiciones</a>.</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">Crear Cuenta y Continuar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN ENVÍO -->
+                    <div id="seccionEnvio" class="d-none">
+                        <h5 class="text-titulos mb-3">¿Dónde enviamos tu pedido, <span id="nombreUsuario"></span>?</h5>
+                        <div class="mb-3" id="bloqueCargarDireccion" style="display: none;">
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill w-100 py-2" onclick="cargarDireccionPredeterminada()">
+                                <i class="bi bi-geo-alt-fill me-1"></i> Usar mi dirección favorita
+                            </button>
+                        </div>
+                        <form id="formFinalizarCompra">
+                            <div class="mb-3">
+                                <label class="fw-bold small text-muted">Dirección de Entrega</label>
+                                <input type="text" class="form-control" id="inputDireccion" placeholder="Ej: Av. Alemania 1234, Temuco" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="fw-bold small text-muted">Teléfono de contacto</label>
+                                <input type="tel" class="form-control" id="inputTelefono" placeholder="Ej: +56912345678" required>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between fs-4 fw-bold mb-4">
+                                <span>Total:</span><span id="total-modal" class="text-titulos">$0</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm w-100">Confirmar y Pagar</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL LEGAL TÉRMINOS Y CONDICIONES -->
+    <div class="modal fade" id="modalTerminos" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header bg-primary-subtle border-0">
+                    <h5 class="modal-title text-titulos fw-bold text-primary"><i class="bi bi-file-earmark-text me-2"></i>Términos y Condiciones</h5>
+                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modalPago"></button>
+                </div>
+                <div class="modal-body p-4 text-muted small lh-lg">
+                    <h6 class="fw-bold text-dark">1. Introducción</h6>
+                    <p>Bienvenido a Temuco Dulce. Al registrarse, acepta los términos de compra de nuestra repostería artesanal.</p>
+                    <h6 class="fw-bold text-dark mt-3">2. Productos, Alérgenos y Contaminación Cruzada</h6>
+                    <p>Nos tomamos muy en serio las restricciones alimentarias. Contamos con áreas de producción y utensilios exclusivos para nuestras líneas <strong>Sin Gluten</strong> y <strong>Sin Azúcar</strong>, asegurando procesos seguros y libres de contaminación cruzada para el cuidado de su salud.</p>
+                    <h6 class="fw-bold text-dark mt-3">3. Envíos</h6>
+                    <p>Despachos exclusivos en el radio urbano de Temuco y sectores céntricos de Padre Las Casas.</p>
+                </div>
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#modalPago">Volver al Pago</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- FOOTER CON REDES SOCIALES -->
+    <footer class="py-5 mt-auto bg-white border-top">
+        <div class="container text-center">
+            <h5 class="mb-3 text-titulos">Temuco Dulce</h5>
+            <p class="mb-1">© 2026 Benjamín Bascur - Todos los derechos reservados.</p>
+            <p class="mb-4 small text-muted">Proyecto formativo Full Stack Java Trainee.</p>
+            
+            <div class="mt-4">
+                <p class="mb-3 text-muted fw-bold">No olvides de seguirnos en redes sociales:</p>
+                <div class="fs-1">
+                    <a href="https://facebook.com" target="_blank" class="link-social icon-facebook me-4 text-secondary">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="link-social icon-instagram me-4 text-secondary">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="https://github.com" target="_blank" class="link-social icon-github text-secondary" title="Nuestro Repositorio">
+                        <i class="bi bi-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MASCOTAA PASTELITO Y WHATSAPP -->
+    <div class="mascota-container" id="mascotaDulce">
+        <div class="burbuja-saludo" id="textoMascota">¡Hola! ¿Antojo de algo rico?</div>
+        <div class="pastelito-emoji">🍰</div>
+    </div>
+    <a href="https://wa.me/56912345678" target="_blank" class="btn-whatsapp"><i class="bi bi-whatsapp"></i></a>
+
+    <!-- BOTÓN VOLVER ARRIBA -->
+    <button id="btnVolverArriba" class="btn btn-primary shadow" title="Volver arriba">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/js/app.js"></script>
+    
+    <script>
+        // 1. Lógica de Mascota Rotativa
+        const frasesMascota = [
+            "¡Hola! ¿Antojo de algo rico?",
+            "Recuerda llevar algo dulcecito",
+            "Acabemos con ese antojo",
+            "Si no te decides, llévatelos todo",
+            "La vida es corta",
+            "Mmmm de-li-ci-o-so",
+            "Keep Calm and Cómeme"
+        ];
+        let indiceFrase = 0;
+        const textoMascota = document.getElementById('textoMascota');
+        if (textoMascota) {
+            setInterval(() => {
+                textoMascota.style.opacity = 0; 
+                setTimeout(() => {
+                    indiceFrase = (indiceFrase + 1) % frasesMascota.length;
+                    textoMascota.innerText = frasesMascota[indiceFrase];
+                    textoMascota.style.opacity = 1; 
+                }, 500);
+            }, 3500); 
+        }
+
+        // 2. Lógica del Botón "Volver Arriba"
+        const btnArriba = document.getElementById('btnVolverArriba');
+        if(btnArriba) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    btnArriba.style.display = 'flex';
+                } else {
+                    btnArriba.style.display = 'none';
+                }
+            });
+            btnArriba.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // 3. Lógica Mostrar Contraseña en Registro
+        const btnVerPassword = document.getElementById('btnVerPassword');
+        const inputPassword = document.getElementById('regPassword');
+        const iconoVerPassword = document.getElementById('iconoVerPassword');
+        if(btnVerPassword && inputPassword) {
+            btnVerPassword.addEventListener('click', () => {
+                if (inputPassword.type === 'password') {
+                    inputPassword.type = 'text';
+                    iconoVerPassword.classList.replace('bi-eye', 'bi-eye-slash');
+                } else {
+                    inputPassword.type = 'password';
+                    iconoVerPassword.classList.replace('bi-eye-slash', 'bi-eye');
+                }
+            });
+        }
+
+        // 4. Renderizado del Carrito
+        function renderizarCarrito() {
+            const tabla = document.getElementById('tabla-carrito');
+            const totalTexto = document.getElementById('total-carrito');
+            const totalModal = document.getElementById('total-modal');
+            const seccionSugerencias = document.getElementById('seccionSugerencias');
+            let total = 0;
+            tabla.innerHTML = '';
+
+            if (carrito.length === 0) {
+                tabla.innerHTML = '<tr><td colspan="5" class="text-center py-5 text-muted fs-5">Tu carrito está vacío 🍰<br><a href="index.html" class="btn btn-primary rounded-pill mt-3 px-4">Ver Catálogo</a></td></tr>';
+                totalTexto.innerText = '$0'; 
+                totalModal.innerText = '$0';
+                document.querySelector('[data-bs-target="#modalPago"]').disabled = true;
+                if(seccionSugerencias) seccionSugerencias.classList.add('d-none');
+                return;
+            }
+
+            document.querySelector('[data-bs-target="#modalPago"]').disabled = false;
+            if(seccionSugerencias) seccionSugerencias.classList.remove('d-none');
+            
+            carrito.forEach((p) => {
+                const subtotal = p.precio * p.cantidad; total += subtotal;
+                tabla.innerHTML += `
+                    <tr>
+                        <td><div class="d-flex align-items-center"><span class="fw-bold text-secondary">${p.nombre}</span></div></td>
+                        <td>$${p.precio.toLocaleString('es-CL')}</td>
+                        <td class="text-center">
+                            <button onclick="cambiarCantidad(${p.id}, -1)" class="btn btn-sm btn-outline-secondary rounded-circle">-</button>
+                            <span class="mx-2 fw-bold">${p.cantidad}</span>
+                            <button onclick="cambiarCantidad(${p.id}, 1)" class="btn btn-sm btn-outline-secondary rounded-circle">+</button>
+                        </td>
+                        <td class="fw-bold text-primary">$${subtotal.toLocaleString('es-CL')}</td>
+                        <td class="text-center"><button onclick="eliminarDelCarrito(${p.id})" class="btn btn-sm btn-danger rounded-circle"><i class="bi bi-trash"></i></button></td>
+                    </tr>`;
+            });
+            totalTexto.innerText = '$' + total.toLocaleString('es-CL');
+            totalModal.innerText = '$' + total.toLocaleString('es-CL');
+
+            renderizarSugerencias();
+        }
+
+        // 5. Sugerencias Cross-Selling
+        function renderizarSugerencias() {
+            const contenedorSugerencias = document.getElementById('contenedor-sugerencias-dinamicas');
+            if (!contenedorSugerencias || typeof productos === 'undefined') return;
+
+            const productosDisponibles = productos.filter(p => !carrito.some(c => c.id === p.id));
+            if (productosDisponibles.length === 0) {
+                document.getElementById('seccionSugerencias').classList.add('d-none'); return;
+            }
+
+            const sugerencias = productosDisponibles.sort(() => 0.5 - Math.random()).slice(0, 2);
+            contenedorSugerencias.innerHTML = '';
+
+            sugerencias.forEach(prod => {
+                contenedorSugerencias.innerHTML += `
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-1 border-primary-subtle shadow-sm rounded-4 overflow-hidden">
+                            <div class="row g-0 align-items-center h-100">
+                                <div class="col-4 h-100 bg-light text-center d-flex align-items-center justify-content-center">
+                                    <img src="${prod.imagen}" class="img-fluid object-fit-cover" alt="${prod.nombre}" style="height: 100%; width: 100%; max-height: 120px;">
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body py-2 px-3">
+                                        <h6 class="fw-bold mb-1 fs-6 text-truncate" title="${prod.nombre}">${prod.nombre}</h6>
+                                        <p class="text-primary fw-bold mb-2 small">$${prod.precio.toLocaleString('es-CL')}</p>
+                                        <button class="btn btn-sm btn-outline-primary rounded-pill w-100" onclick="agregarSugerencia(${prod.id})">+ Agregar al carrito</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.agregarSugerencia = (id) => {
+            const productoCatalogo = productos.find(p => p.id === id);
+            if (productoCatalogo) {
+                carrito.push({ ...productoCatalogo, cantidad: 1 });
+                localStorage.setItem('carritoTemucoDulce', JSON.stringify(carrito));
+                renderizarCarrito(); actualizarContador();
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: '¡Agregado al pedido!', showConfirmButton: false, timer: 1500 });
+            }
+        };
+
+        // 6. Modal Auth Handling
+        document.getElementById('modalPago').addEventListener('show.bs.modal', () => {
+            const usuario = JSON.parse(localStorage.getItem('usuarioTemucoDulce'));
+            if (usuario) {
+                document.getElementById('seccionAuth').classList.add('d-none');
+                document.getElementById('seccionEnvio').classList.remove('d-none');
+                document.getElementById('tituloModal').innerText = 'Finalizar Compra';
+                document.getElementById('nombreUsuario').innerText = usuario.nombre;
+                document.getElementById('bloqueCargarDireccion').style.display = 'block';
+                cargarDireccionPredeterminada();
+            } else {
+                document.getElementById('seccionAuth').classList.remove('d-none');
+                document.getElementById('seccionEnvio').classList.add('d-none');
+                document.getElementById('tituloModal').innerText = 'Accede para continuar';
+            }
+        });
+
+        // 7. Formularios Auth Carrito
+        const formLoginCarrito = document.getElementById('formLoginCarrito');
+        if(formLoginCarrito) {
+            formLoginCarrito.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!formLoginCarrito.checkValidity()) { e.stopPropagation(); formLoginCarrito.classList.add('was-validated'); return; }
+                Swal.fire({ icon: 'success', title: '¡Bienvenido!', showConfirmButton: false, timer: 1500 }).then(() => { location.reload(); });
+            });
+        }
+
+        const formRegistroCarrito = document.getElementById('formRegistroCarrito');
+        if(formRegistroCarrito) {
+            formRegistroCarrito.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!formRegistroCarrito.checkValidity()) { e.stopPropagation(); formRegistroCarrito.classList.add('was-validated'); return; }
+                const nombreStr = document.getElementById('regNombre').value + " " + document.getElementById('regApellido').value;
+                localStorage.setItem('usuarioTemucoDulce', JSON.stringify({ nombre: nombreStr, email: document.getElementById('regEmail').value }));
+                Swal.fire({ icon: 'success', title: `¡Cuenta Creada, ${document.getElementById('regNombre').value}!`, showConfirmButton: false, timer: 2000 }).then(() => { location.reload(); });
+            });
+        }
+
+        window.cargarDireccionPredeterminada = () => {
+            const usuario = JSON.parse(localStorage.getItem('usuarioTemucoDulce'));
+            if (usuario) {
+                let dirTexto = "Av. Alemania 1234, Temuco"; 
+                if (usuario.direcciones && usuario.direcciones.length > 0) {
+                    const fav = usuario.direcciones.find(d => d.favorita) || usuario.direcciones[0];
+                    dirTexto = `${fav.calle}, ${fav.depto ? fav.depto + ', ' : ''}${fav.comuna}, ${fav.region}`;
+                }
+                document.getElementById('inputDireccion').value = dirTexto;
+                document.getElementById('inputTelefono').value = usuario.telefono || "+56912345678";
+                Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 1500 }).fire({ icon: 'info', title: 'Dirección favorita cargada' });
+            }
+        };
+
+        // 8. Confirmar y Pagar
+        document.getElementById('formFinalizarCompra').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nuevoPedido = {
+                id: "TC-" + Date.now(),
+                fecha: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+                monto: document.getElementById('total-modal').innerText,
+                items: carrito.length,
+                detalle: [...carrito]
+            };
+            let historial = JSON.parse(localStorage.getItem('pedidosTemucoDulce')) || [];
+            historial.push(nuevoPedido);
+            localStorage.setItem('pedidosTemucoDulce', JSON.stringify(historial));
+
+            Swal.fire({
+                icon: 'success', title: '¡Compra Exitosa!', text: 'Prepararemos tu pedido con mucho amor.', confirmButtonColor: '#d63384'
+            }).then(() => {
+                localStorage.removeItem('carritoTemucoDulce');
+                window.location.href = 'pedidos.html';
+            });
+        });
+
+        // 9. Funciones Extra Carrito
+        window.cambiarCantidad = (id, cambio) => {
+            const p = carrito.find(item => item.id === id);
+            if(p) { p.cantidad += cambio; if(p.cantidad < 1) p.cantidad = 1; }
+            localStorage.setItem('carritoTemucoDulce', JSON.stringify(carrito)); renderizarCarrito(); actualizarContador();
+        };
+
+        window.eliminarDelCarrito = (id) => {
+            carrito = carrito.filter(i => i.id !== id);
+            localStorage.setItem('carritoTemucoDulce', JSON.stringify(carrito)); renderizarCarrito(); actualizarContador();
+        };
+
+        window.confirmarVaciarCarrito = () => {
+            carrito = []; localStorage.removeItem('carritoTemucoDulce'); renderizarCarrito(); actualizarContador();
+        };
+
+        document.addEventListener('DOMContentLoaded', renderizarCarrito);
+    </script>
+</body>
+</html>

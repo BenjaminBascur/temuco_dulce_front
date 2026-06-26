@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temuco Dulce | Pastelería Artesanal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍰</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <style>
+        .btn-outline-primary {
+            color: #d63384 !important;
+            border-color: #d63384 !important;
+        }
+        .btn-outline-primary:hover, 
+        .btn-outline-primary.active, 
+        .btn-outline-primary:focus, 
+        .btn-outline-primary:active {
+            background-color: #d63384 !important;
+            border-color: #d63384 !important;
+            color: white !important;
+            box-shadow: 0 4px 10px rgba(214, 51, 132, 0.2) !important;
+        }
+        .nav-tabs .nav-link.active {
+            color: #d63384 !important;
+            border-color: #dee2e6 #dee2e6 #fff !important;
+        }
+        .nav-tabs .nav-link {
+            color: #6c757d !important;
+        }
+        
+        /* ESTILOS BOTÓN VOLVER ARRIBA */
+        #btnVolverArriba {
+            position: fixed;
+            bottom: 90px; 
+            left: 20px; 
+            width: 50px;
+            height: 50px;
+            display: none; 
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 1000;
+            border-radius: 50%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #btnVolverArriba:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(214, 51, 132, 0.4) !important;
+        }
+        
+        /* EFECTO HOVER PARA REDES SOCIALES */
+        .link-social {
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        .link-social:hover { transform: translateY(-3px); }
+        .icon-facebook:hover { color: #1877F2 !important; }
+        .icon-instagram:hover { color: #E4405F !important; }
+        .icon-github:hover { color: #333 !important; }
+
+        /* EFECTO GLOW ARTESANAL PARA TARJETAS DE PRODUCTOS */
+        #contenedor-productos .card {
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            will-change: transform, box-shadow;
+        }
+        #contenedor-productos .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(214, 51, 132, 0.25) !important;
+            border: 1px solid rgba(214, 51, 132, 0.1) !important;
+        }
+
+        /* TRANSICIÓN SUAVE PARA LOS MENSAJES DE LA MASCOTA */
+        .burbuja-saludo {
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="text-center">
+            <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+            <h4 class="text-titulos fw-bold">Preparando Experiencia Personalizada...</h4>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-reposteria shadow py-3">
+            <div class="container">
+                <a class="navbar-brand fw-bold fs-3 text-white" href="index.html">🍰 Temuco Dulce</a>
+                
+                <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menuNavegacion">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fs-5">
+                        <li class="nav-item px-2"><a class="nav-link active fw-bold text-white" href="index.html">Inicio</a></li>
+                        <li class="nav-item px-2"><a class="nav-link text-white" href="index.html#productos">Catálogo</a></li>
+                        <li class="nav-item px-2"><a class="nav-link text-white" href="nosotros.html">Nosotros</a></li>
+                    </ul>
+
+                    <ul class="navbar-nav align-items-center">
+                        <li class="nav-item me-lg-4 mb-2 mb-lg-0">
+                            <a class="btn btn-outline-light position-relative d-flex align-items-center px-3 py-2 rounded-pill" href="carrito.html">
+                                <i class="bi bi-basket-fill fs-5 me-2"></i> Mi Carrito
+                                <span id="contador-carrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">0</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item dropdown" id="menuUsuario" style="display: none;">
+                            <a class="nav-link dropdown-toggle text-white fw-bold d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle fs-4 me-2"></i> <span id="nombreNav">Usuario</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
+                                <li><a class="dropdown-item py-2 fw-semibold text-secondary" href="mi-cuenta.html"><i class="bi bi-person-vcard me-2 text-primary"></i>Mi Cuenta</a></li>
+                                <li><a class="dropdown-item py-2 fw-semibold text-secondary" href="pedidos.html"><i class="bi bi-bag-check me-2 text-primary"></i>Mis Pedidos</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><button class="dropdown-item py-2 fw-bold text-danger" onclick="cerrarSesion()"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</button></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item" id="botonLoginNav">
+                            <a class="btn btn-light fw-bold text-primary rounded-pill px-4" href="#" data-bs-toggle="modal" data-bs-target="#modalPago">
+                                <i class="bi bi-person me-1"></i> Iniciar Sesión
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="py-1 container my-1 hero-section hero-con-fondo shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="row py-lg-5 align-items-center">
+                <div class="col-lg-6 col-md-8 mx-auto text-center">
+                    <h1 class="display-4 mb-4 fw-bold text-white">Pastelería con Amor desde Temuco</h1>
+                    <p class="lead text-light mb-5">
+                        Descubre nuestra selección de productos artesanales, hechos con ingredientes locales y la tradición del sur de Chile.
+                    </p>
+                    <p>
+                        <a href="#productos" class="btn btn-primary btn-lg px-4 me-2 rounded-pill">
+                            <i class="bi bi-shop me-2"></i>Ver Catálogo
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATÁLOGO Y FILTROS -->
+        <div class="py-5 bg-light rounded-top-5" id="productos">
+            <div class="container">
+                <div class="row mb-4 justify-content-center">
+                    <div class="col-12 text-center">
+                        <h2 class="text-titulos fw-bold">Explora nuestras dulzuras</h2>
+                        
+                        <div class="row justify-content-center my-4">
+                            <div class="col-md-6 col-lg-5">
+                                <div class="input-group shadow-sm border-2">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="bi bi-search text-primary"></i>
+                                    </span>
+                                    <input type="text" id="inputBuscador" class="form-control border-start-0 ps-0 py-2" placeholder="¿Buscas algo específico? (Kuchen, Alfajor...)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CATEGORÍAS -->
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4" id="pillsCategorias">
+                            <button class="btn btn-sm btn-outline-primary rounded-pill px-4 active btn-cat" data-categoria="todos">¡Todos!</button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill px-4 btn-cat" data-categoria="tortas">Tortas</button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill px-4 btn-cat" data-categoria="kuchens-pies">Kuchens & Pies</button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill px-4 btn-cat" data-categoria="masas">Masas</button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill px-4 btn-cat" data-categoria="sin-azucar">Sin Azucar</button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill px-4 btn-cat" data-categoria="sin-gluten">Sin Gluten</button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill px-4 btn-cat" data-categoria="proteina">Proteina</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row g-4" id="contenedor-productos">
+                    <!-- Productos inyectados dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="py-5 bg-white border-top rounded-top-5 shadow-sm" id="faq">
+            <div class="container" style="max-width: 800px;">
+                <div class="text-center mb-5">
+                    <h2 class="text-titulos fw-bold"><i class="bi bi-question-circle text-primary me-2"></i>Preguntas Frecuentes</h2>
+                    <p class="text-muted">Todo lo que necesitas saber sobre tus pedidos en Temuco Dulce.</p>
+                </div>
+
+                <div class="accordion accordion-flush" id="accordionFaq">
+                    <div class="accordion-item border-bottom py-2">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold text-secondary bg-white fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#faq-1">
+                                ¿Con cuánta anticipación debo realizar mi pedido?
+                            </button>
+                        </h2>
+                        <div id="faq-1" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
+                            <div class="accordion-body text-muted lh-lg">
+                                Para productos individuales y pastelería diaria, puedes comprar directamente con entrega inmediata según disponibilidad. Para <strong>Tortas temáticas o Kuchenes grandes</strong>, solicitamos un mínimo de <strong>24 a 48 horas de anticipación</strong> para garantizar la máxima frescura en el horneado.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item border-bottom py-2">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold text-secondary bg-white fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#faq-2">
+                                ¿Cuáles son las zonas y horarios de reparto en Temuco?
+                            </button>
+                        </h2>
+                        <div id="faq-2" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
+                            <div class="accordion-body text-muted lh-lg">
+                                Despachamos de Lunes a Sábado entre las 10:00 y las 19:00 horas dentro del radio urbano de <strong>Temuco</strong> (incluyendo sector Av. Alemania, Centro, Barrio Norte y Labranza) y sectores céntricos de <strong>Padre Las Casas</strong>. Al momento de pagar en el carrito, podrás seleccionar tu dirección favorita.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item border-bottom py-2">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold text-secondary bg-white fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#faq-3">
+                                ¿Tienen opciones para personas con restricciones alimentarias?
+                            </button>
+                        </h2>
+                        <div id="faq-3" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
+                            <div class="accordion-body text-muted lh-lg">
+                                ¡Sí! En Temuco Dulce nos tomamos muy en serio la salud de nuestros clientes. Contamos con líneas de producción, hornos y utensilios <strong>estrictamente separados</strong> para nuestras categorías <strong>Sin Gluten</strong> y <strong>Sin Azúcar</strong>. Garantizamos que nuestros productos de estas líneas son seguros y libres de contaminación cruzada.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE UBICACIÓN Y MAPA -->
+        <section class="py-5 bg-light border-top" id="ubicacion">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 mb-4 mb-lg-0">
+                        <h2 class="text-titulos fw-bold mb-4"><i class="bi bi-geo-alt-fill text-primary me-2"></i>Encuéntranos</h2>
+                        
+                        <div class="card border-0 bg-white rounded-4 p-4 shadow-sm mb-4">
+                            <h5 class="fw-bold text-dark"><i class="bi bi-shop me-2 text-primary"></i>Nuestra Tienda</h5>
+                            <p class="text-muted mb-1">Av. Alemania 1234, Local 5</p>
+                            <p class="text-muted mb-0">Temuco, Región de La Araucanía</p>
+                        </div>
+                        
+                        <div class="card border-0 bg-white rounded-4 p-4 shadow-sm">
+                            <h5 class="fw-bold text-dark"><i class="bi bi-clock-history me-2 text-primary"></i>Horario de Atención</h5>
+                            <ul class="list-unstyled text-muted mb-0 mt-3">
+                                <li class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                                    <span>Lunes a Viernes</span> <strong class="text-dark">10:00 - 19:00 hrs</strong>
+                                </li>
+                                <li class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                                    <span>Sábado</span> <strong class="text-dark">10:00 - 15:00 hrs</strong>
+                                </li>
+                                <li class="d-flex justify-content-between text-danger">
+                                    <span>Domingo</span> <strong>Cerrado</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-7">
+                        <div class="rounded-4 overflow-hidden shadow-sm border border-white border-4">
+                            <iframe 
+                                src="https://maps.google.com/maps?q=Av.%20Alemania%201234,%20Temuco&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                width="100%" 
+                                height="400" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+            <!-- FOOTER CON REDES SOCIALES -->
+        <footer class="py-5 mt-auto bg-white border-top">
+            <div class="container text-center">
+                <h5 class="mb-3 text-titulos">Temuco Dulce</h5>
+                <p class="mb-1">© 2026 Benjamín Bascur - Todos los derechos reservados.</p>
+                <p class="mb-4 small text-muted">Proyecto formativo Full Stack Java Trainee.</p>
+                
+                <div class="mt-4">
+                    <p class="mb-3 text-muted fw-bold">No olvides de seguirnos en redes sociales:</p>
+                    <!-- AQUÍ CAMBIAMOS FS-3 POR FS-2 PARA QUE SEAN MÁS GRANDES -->
+                    <div class="fs-1">
+                        <a href="https://facebook.com" target="_blank" class="link-social icon-facebook me-4 text-secondary">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="link-social icon-instagram me-4 text-secondary">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="https://github.com" target="_blank" class="link-social icon-github text-secondary" title="Nuestro Repositorio">
+                            <i class="bi bi-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <!-- MASCOTITA Y WHATSAPP -->
+    <div class="mascota-container" id="mascotaDulce">
+        <div class="burbuja-saludo" id="textoMascota">¡Hola! ¿Antojo de algo rico?</div>
+        <div class="pastelito-emoji">🍰</div>
+    </div>
+    <a href="https://wa.me/56912345678" target="_blank" class="btn-whatsapp"><i class="bi bi-whatsapp"></i></a>
+
+    <!-- BOTÓN VOLVER ARRIBA -->
+    <button id="btnVolverArriba" class="btn btn-primary shadow" title="Volver arriba">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- MODAL BIENVENIDA -->
+    <div class="modal fade" id="modalBienvenida" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header border-0 pb-0 position-absolute end-0 z-3">
+                    <button type="button" class="btn-close bg-white rounded-circle p-2 m-2 shadow-sm" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0 text-center">
+                    <div class="bg-primary-subtle py-5" style="background-image: url('https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center; position: relative;">
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+                        <h2 class="display-4 fw-bold text-white position-relative z-1 mb-0 mt-3">¡Bienvenido!</h2>
+                    </div>
+                    <div class="p-4 p-md-5 bg-white">
+                        <div class="display-1 mb-3">🎁</div>
+                        <h3 class="text-titulos fw-bold">10% de Descuento</h3>
+                        <p class="text-muted fs-5 mb-4">Regístrate en Temuco Dulce y obtén un 10% de descuento en tu primera compra:</p>
+                        <div class="bg-pink-subtle border border-primary text-primary fw-bold fs-2 py-2 px-4 rounded-pill d-inline-block mb-4" style="letter-spacing: 2px;">DULCE10</div>
+                        <br>
+                        <button class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalPago">¡Registrarme ahora!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL LOGIN / REGISTRO CON BOTÓN VER CONTRASEÑA -->
+    <div class="modal fade" id="modalPago" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header bg-light border-0 pb-0">
+                    <ul class="nav nav-tabs card-header-tabs w-100 border-bottom-0" id="authTabs" role="tablist">
+                        <li class="nav-item"><button class="nav-link active fw-bold px-4" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-panel" type="button" role="tab">Ingresar</button></li>
+                        <li class="nav-item"><button class="nav-link fw-bold px-4" id="registro-tab" data-bs-toggle="tab" data-bs-target="#registro-panel" type="button" role="tab">Crear Cuenta</button></li>
+                    </ul>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 pt-4">
+                    <div class="tab-content" id="authTabsContent">
+                        <!-- PANEL INGRESAR -->
+                        <div class="tab-pane fade show active" id="login-panel" role="tabpanel">
+                            <form id="formLogin" class="needs-validation" novalidate>
+                                <div class="mb-3"><label class="form-label small fw-bold text-muted">Correo Electrónico</label><input type="email" class="form-control" required></div>
+                                <div class="mb-4"><label class="form-label small fw-bold text-muted">Contraseña</label><input type="password" class="form-control" required></div>
+                                <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">Entrar a mi cuenta</button>
+                            </form>
+                        </div>
+                        
+                        <!-- PANEL CREAR CUENTA -->
+                        <div class="tab-pane fade" id="registro-panel" role="tabpanel">
+                            <form id="formRegistro" class="needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3"><label class="form-label small fw-bold text-muted">Nombre</label><input type="text" id="regNombre" class="form-control" required></div>
+                                    <div class="col-md-6 mb-3"><label class="form-label small fw-bold text-muted">Apellidos</label><input type="text" id="regApellido" class="form-control" required></div>
+                                </div>
+                                <div class="mb-3"><label class="form-label small fw-bold text-muted">Correo Electrónico</label><input type="email" class="form-control" id="regEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required></div>
+                                <div class="mb-4">
+                                    <label class="form-label small fw-bold text-muted">Contraseña</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="regPassword" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8}$" minlength="8" maxlength="8" required>
+                                        <button class="btn btn-outline-secondary" type="button" id="btnVerPassword" title="Mostrar/Ocultar contraseña">
+                                            <i class="bi bi-eye" id="iconoVerPassword"></i>
+                                        </button>
+                                        <div class="invalid-feedback mt-1 w-100" style="font-size: 0.75rem;">Debe tener 1 Mayúscula, 1 Número, 1 Símbolo y exactamente 8 caracteres.</div>
+                                    </div>
+                                </div>
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="checkTerminos" required>
+                                    <label class="form-check-label small text-muted" for="checkTerminos">He leído y acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#modalTerminos" class="text-primary text-decoration-none fw-bold">Términos y Condiciones</a>.</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">Crear Cuenta</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL LEGAL -->
+    <div class="modal fade" id="modalTerminos" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header bg-primary-subtle border-0">
+                    <h5 class="modal-title text-titulos fw-bold text-primary"><i class="bi bi-file-earmark-text me-2"></i>Términos y Condiciones</h5>
+                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modalPago"></button>
+                </div>
+                <div class="modal-body p-4 text-muted small lh-lg">
+                    <h6 class="fw-bold text-dark">1. Introducción</h6>
+                    <p>Bienvenido a Temuco Dulce. Al registrarse, acepta los términos de compra de nuestra repostería artesanal.</p>
+                    <h6 class="fw-bold text-dark mt-3">2. Productos, Alérgenos y Contaminación Cruzada</h6>
+                    <p>Nos tomamos muy en serio las restricciones alimentarias. Contamos con áreas de producción y utensilios exclusivos para nuestras líneas <strong>Sin Gluten</strong> y <strong>Sin Azúcar</strong>, asegurando procesos seguros y libres de contaminación cruzada para el cuidado de su salud.</p>
+                    <h6 class="fw-bold text-dark mt-3">3. Envíos</h6>
+                    <p>Despachos exclusivos en el radio urbano de Temuco y sectores céntricos de Padre Las Casas.</p>
+                </div>
+                <div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#modalPago">Volver al Registro</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/js/app.js"></script>
+    
+    <script>
+        let categoriaSeleccionada = "todos";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Pop-up Bienvenida
+            const popupMostrado = localStorage.getItem('popupBienvenidaTemucoDulce');
+            if (!popupMostrado) {
+                setTimeout(() => {
+                    const modalBienvenida = new bootstrap.Modal(document.getElementById('modalBienvenida'));
+                    modalBienvenida.show();
+                    localStorage.setItem('popupBienvenidaTemucoDulce', 'true');
+                }, 2000);
+            }
+
+            // 2. Lógica del Botón "Volver Arriba"
+            const btnArriba = document.getElementById('btnVolverArriba');
+            if(btnArriba) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        btnArriba.style.display = 'flex';
+                    } else {
+                        btnArriba.style.display = 'none';
+                    }
+                });
+                btnArriba.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+                        // Lógica de Mascota Rotativa
+                    const frasesMascota = [
+                        "¡Hola! ¿Antojo de algo rico?",
+                        "Recuerda llevar algo dulcecito",
+                        "Acabemos con ese antojo",
+                        "Si no te decides, llévatelos todos",
+                        "La vida es corta, ¡come dulce!",
+                        "Mmmm de-li-ci-o-so",
+                        "Keep Calm and Cómeme"
+                    ];
+
+                    let indiceFrase = 0;
+                    const textoMascota = document.getElementById('textoMascota');
+
+                    if (textoMascota) {
+                        setInterval(() => {
+                            textoMascota.style.opacity = 0; 
+                            
+                            setTimeout(() => {
+                                indiceFrase = (indiceFrase + 1) % frasesMascota.length;
+                                textoMascota.innerText = frasesMascota[indiceFrase];
+                                textoMascota.style.opacity = 1; 
+                            }, 500);
+                        }, 3500); // Cambia cada 3.5 segundos???
+                    }
+
+                    
+
+            // 4. LÓGICA DE VER CONTRASEÑA EN INDEX
+            const btnVerPassword = document.getElementById('btnVerPassword');
+            const inputPassword = document.getElementById('regPassword');
+            const iconoVerPassword = document.getElementById('iconoVerPassword');
+
+            if(btnVerPassword && inputPassword) {
+                btnVerPassword.addEventListener('click', () => {
+                    if (inputPassword.type === 'password') {
+                        inputPassword.type = 'text';
+                        iconoVerPassword.classList.replace('bi-eye', 'bi-eye-slash');
+                    } else {
+                        inputPassword.type = 'password';
+                        iconoVerPassword.classList.replace('bi-eye-slash', 'bi-eye');
+                    }
+                });
+            }
+
+            // 5. Lógica de Filtrado Inteligente
+            function filtrarYRenderizar() {
+                const textoBuscado = document.getElementById('inputBuscador').value.toLowerCase();
+                const contenedor = document.getElementById('contenedor-productos');
+                
+                if (!contenedor || typeof productos === 'undefined') return;
+
+                const filtrados = productos.filter(prod => {
+                    const nombreProd = prod.nombre ? prod.nombre.toLowerCase() : '';
+                    const descProd = prod.descripcion ? prod.descripcion.toLowerCase() : '';
+                    
+                    const coincideTexto = nombreProd.includes(textoBuscado) || descProd.includes(textoBuscado);
+                    
+                    let coincideCategoria = true;
+                    if (categoriaSeleccionada !== 'todos') {
+                        let categoriaDeducida = 'masas'; 
+                        
+                        if (nombreProd.includes('sin gluten')) {
+                            categoriaDeducida = 'sin-gluten';
+                        } else if (nombreProd.includes('sin azucar') || nombreProd.includes('sin azúcar')) {
+                            categoriaDeducida = 'sin-azucar';
+                        } else if (nombreProd.includes('proteina') || nombreProd.includes('proteína') || nombreProd.includes('proteic')) {
+                            categoriaDeducida = 'proteina';
+                        } else if (nombreProd.includes('torta') || nombreProd.includes('tiramis') || nombreProd.includes('brownie')) {
+                            categoriaDeducida = 'tortas';
+                        } else if (nombreProd.includes('kuchen') || nombreProd.includes('pie') || nombreProd.includes('cheesecake')) {
+                            categoriaDeducida = 'kuchens-pies';
+                        } else {
+                            categoriaDeducida = 'masas';
+                        }
+                        
+                        coincideCategoria = categoriaDeducida === categoriaSeleccionada;
+                    }
+                    
+                    return coincideTexto && coincideCategoria;
+                });
+
+                contenedor.innerHTML = '';
+                if (filtrados.length === 0) {
+                    contenedor.innerHTML = '<div class="col-12 text-center py-5 text-muted fs-5">No encontramos productos en esta categoría 🍰</div>';
+                    return;
+                }
+
+                filtrados.forEach(prod => {
+                    contenedor.innerHTML += `
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                                <div class="position-relative bg-light text-center d-flex align-items-center justify-content-center" style="aspect-ratio: 4/3; overflow: hidden;">
+                                    <img src="${prod.imagen}" class="img-fluid object-fit-cover w-100 h-100" alt="${prod.nombre}">
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <h5 class="card-title fw-bold text-secondary mb-1">${prod.nombre}</h5>
+                                    <p class="card-text text-muted small flex-grow-1">${prod.descripcion || 'Delicioso producto artesanal preparado con ingredientes locales.'}</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="fw-bold fs-4 text-primary">$${prod.precio.toLocaleString('es-CL')}</span>
+                                        <button onclick="agregarAlCarrito(${prod.id})" class="btn btn-sm btn-primary rounded-pill px-3">
+                                            <i class="bi bi-cart-plus me-1"></i>Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('inputBuscador').addEventListener('input', filtrarYRenderizar);
+
+            const botonesCategoria = document.querySelectorAll('.btn-cat');
+            botonesCategoria.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    botonesCategoria.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    categoriaSeleccionada = this.getAttribute('data-categoria');
+                    filtrarYRenderizar(); 
+                });
+            });
+
+            setTimeout(filtrarYRenderizar, 300);
+
+            // 6. Formularios Auth
+            const formLogin = document.getElementById('formLogin');
+            if(formLogin) {
+                formLogin.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (!formLogin.checkValidity()) { e.stopPropagation(); formLogin.classList.add('was-validated'); return; }
+                    Swal.fire({ icon: 'success', title: '¡Bienvenido de vuelta!', showConfirmButton: false, timer: 1500 }).then(() => { location.reload(); });
+                });
+            }
+
+            const formRegistro = document.getElementById('formRegistro');
+            if(formRegistro) {
+                formRegistro.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (!formRegistro.checkValidity()) { e.stopPropagation(); formRegistro.classList.add('was-validated'); return; }
+                    const nombreStr = document.getElementById('regNombre').value + " " + document.getElementById('regApellido').value;
+                    localStorage.setItem('usuarioTemucoDulce', JSON.stringify({ nombre: nombreStr, email: document.getElementById('regEmail').value }));
+                    Swal.fire({ icon: 'success', title: `¡Cuenta Creada, ${document.getElementById('regNombre').value}!`, showConfirmButton: false, timer: 2000 }).then(() => { location.reload(); });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
