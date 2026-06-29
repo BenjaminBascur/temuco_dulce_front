@@ -1,58 +1,100 @@
-/* --- ESTILOS GENERALES --- */
+/* ==========================================================
+   PALETA, TIPOGRAFÍA BASE Y BOTONES DE TEMUCO DULCE
+   ========================================================== */
 :root {
-    --color-primario: #d63384; /* Rosa Temuco Dulce */
-    --color-secundario: #4a148c; /* Morado Oscuro */
+    --color-primario: #d63384;    /* Rosa Temuco Dulce */
+    --color-secundario: #4a148c;  /* Morado Oscuro */
     --color-fondo: #fce4ec;
 }
 
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-
-/* Preloader */
-.preloader {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease;
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
-.preloader-hidden { opacity: 0; pointer-events: none; }
 
-/* Utilidades */
-.bg-reposteria { background-color: var(--color-primario) !important; }
-.text-titulos { color: var(--color-secundario) !important; font-weight: bold; }
-.text-primary { color: var(--color-primario) !important; }
+/* Forzar que el Navbar use tu rosa oficial */
+.bg-reposteria { 
+    background-color: var(--color-primario) !important; 
+}
 
-/* Botones */
-.btn-primary { background-color: var(--color-primario); border-color: var(--color-primario); }
-.btn-primary:hover { background-color: #c2185b; border-color: #c2185b; }
-.btn-outline-primary { color: var(--color-primario); border-color: var(--color-primario); }
-.btn-outline-primary:hover { background-color: var(--color-primario); color: white; }
+.text-titulos { 
+    color: var(--color-secundario) !important; 
+    font-weight: bold; 
+}
 
-/* --- HERO BANNER (ESTILO 3D ESTÁTICO) --- */
+.text-primary { 
+    color: var(--color-primario) !important; 
+}
+
+/* Forzar que los botones principales de la tienda sean rosas */
+.btn-primary { 
+    background-color: var(--color-primario) !important; 
+    border-color: var(--color-primario) !important;
+    color: white !important;
+}
+
+.btn-primary:hover { 
+    background-color: #c2185b !important; 
+    border-color: #c2185b !important; 
+}
+
+/* Botones Outline Personalizados */
+.btn-outline-primary {
+    color: var(--color-primario) !important;
+    border-color: var(--color-primario) !important;
+}
+
+.btn-outline-primary:hover, 
+.btn-outline-primary.active, 
+.btn-outline-primary:focus, 
+.btn-outline-primary:active {
+    background-color: var(--color-primario) !important;
+    border-color: var(--color-primario) !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(214, 51, 132, 0.2) !important;
+}
+
+/* Tabs Activos */
+.nav-tabs .nav-link.active {
+    color: var(--color-primario) !important;
+    border-color: #dee2e6 #dee2e6 #fff !important;
+}
+
+.nav-tabs .nav-link { 
+    color: #6c757d !important; 
+}
+
+/* ====================
+   HERO BANNER 
+   ==================== */
 .hero-con-fondo {
-    background-image: url('../img/FONDO.png'); 
+    /* Ruta relativa limpia hacia la imagen */
+    background-image: url('../img/fondo.webp'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
     color: white !important; 
     text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+
+    /* Borde rosa fijo */
     border: 3px solid rgba(214, 51, 132, 0.4) !important;
+    
+    /* Sombra profunda para que resalte sobre el fondo claro */
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
                 0 0 20px rgba(214, 51, 132, 0.3);
+    
+    /* Animación suave para el cambio de iluminación */
     transition: box-shadow 0.4s ease, border-color 0.4s ease !important;
 }
 
+/* Efecto hover estático: intensifica el neón rosa sin moverse */
 .hero-con-fondo:hover {
     border-color: rgba(214, 51, 132, 0.9) !important;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
                 0 0 40px rgba(214, 51, 132, 0.7);
 }
 
+/* Capa oscura superpuesta al fondo para que el texto resalte */
 .hero-con-fondo::before {
     content: "";
     position: absolute;
@@ -68,28 +110,81 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     z-index: 1;
 }
 
-/* --- ESTILOS DE LA MASCOTITAAAAAAAAAAA --- */
-.mascota-container {
-    position: fixed; 
-    bottom: 20px; right: 20px; 
-    width: 90px; height: 90px; 
-    z-index: 1000; 
-    cursor: pointer; 
-    transition: transform 0.3s ease;
-    display: flex;
-    justify-content: center;
+/* ====================
+   ELEMENTOS DE INTERFAZ
+   ==================== */
+
+/* Botón Volver Arriba */
+#btnVolverArriba {
+    position: fixed;
+    bottom: 90px; 
+    left: 20px; 
+    width: 50px;
+    height: 50px;
+    display: none; 
     align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    z-index: 1000;
+    border-radius: 50%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#btnVolverArriba:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(214, 51, 132, 0.4) !important;
+}
+
+/* Redes Sociales Footer */
+.link-social {
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+}
+
+.link-social:hover { transform: translateY(-3px); }
+.icon-facebook:hover { color: #1877F2 !important; }
+.icon-instagram:hover { color: #E4405F !important; }
+.icon-github:hover { color: #333 !important; }
+
+/* Efecto Glow Tarjetas Productos (Catálogo) */
+#contenedor-productos .card {
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    will-change: transform, box-shadow;
+}
+
+#contenedor-productos .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(214, 51, 132, 0.25) !important;
+    border: 1px solid rgba(214, 51, 132, 0.1) !important;
+}
+
+/* Transición Mascota */
+.burbuja-saludo { transition: opacity 0.5s ease-in-out; }
+
+/* 1. Preloader a pantalla completa */
+.preloader {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #ffffff;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+.preloader-hidden { opacity: 0; pointer-events: none; }
+
+/* 2. Mascota Pastelito */
+.mascota-container {
+    position: fixed; bottom: 20px; right: 20px; 
+    width: 90px; height: 90px; z-index: 1000; 
+    cursor: pointer; transition: transform 0.3s ease;
+    display: flex; justify-content: center; align-items: center;
 }
 .mascota-container:hover { transform: scale(1.1); }
 
 .pastelito-emoji {
-    font-size: 70px;
-    line-height: 1;
-    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.2));
-    transform-origin: bottom center;
-    animation: saludar-emoji 2.5s ease-in-out infinite;
+    font-size: 70px; line-height: 1; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.2));
+    transform-origin: bottom center; animation: saludar-emoji 2.5s ease-in-out infinite;
 }
-
 @keyframes saludar-emoji {
     0%, 100% { transform: rotate(0deg); } 
     15% { transform: rotate(-15deg); } 
@@ -99,45 +194,54 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 }
 
 .burbuja-saludo {
-    position: absolute; 
-    bottom: 110%; right: 0; 
-    background-color: white; 
-    border: 2px solid #d63384; 
-    color: #495057; 
-    padding: 10px 15px; 
-    border-radius: 15px 15px 0 15px; 
-    font-size: 14px; 
-    white-space: nowrap; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-    opacity: 1; 
-    visibility: visible; 
-    transition: opacity 0.5s ease-in-out;
+    position: absolute; bottom: 110%; right: 0; 
+    background-color: white; border: 2px solid var(--color-primario); color: #495057; 
+    padding: 10px 15px; border-radius: 15px 15px 0 15px; font-size: 14px; 
+    white-space: nowrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    opacity: 0; visibility: hidden; transition: opacity 0.5s ease-in-out;
 }
 
-/* --- BOTÓN WHATSAPPP --- */
+/* 3. Botón WhatsApp Flotante */
 .btn-whatsapp {
     position: fixed; bottom: 20px; left: 20px;
-    background-color: #25d366;
-    color: white !important;
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center; align-items: center;
-    font-size: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    transition: all 0.3s ease;
+    background-color: #25d366; color: white !important;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; font-size: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1000; transition: all 0.3s ease;
 }
 .btn-whatsapp:hover { transform: scale(1.1); background-color: #20ba5a; }
 
-/* --- REDES SOCIALES --- */
-.link-social { transition: all 0.3s ease; display: inline-block; }
+/* 4. Colores fijos de Redes Sociales */
+.link-social { transition: transform 0.3s ease; display: inline-block; }
 .link-social:hover { transform: translateY(-3px); }
-.icon-facebook { color: #1877f2 !important; }
-.icon-instagram { color: #e1306c !important; }
+.icon-facebook { color: #1877F2 !important; }
+.icon-instagram { color: #E4405F !important; }
+.icon-github { color: #333 !important; }
 
-/* --- RESPONSIVIDAD --- */
-@media (max-width: 767.98px) {
-    .display-4 { font-size: 2rem; }
-    .hero-section { padding: 2rem 1rem !important; margin: 10px !important; border-radius: 1rem !important; }
+/* 6. Botones Mi Cuenta (Nav Pills Rosados) */
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: var(--color-primario) !important;
+    color: white !important;
+}
+.nav-pills .nav-link { color: var(--color-secundario) !important; }
+
+/* Contenedor de las fotos del catálogo */
+.img-wrapper-catalogo {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+
+/* Efecto Zoom elegante para las fotos (reemplaza los eventos onmouseover) */
+.img-zoom {
+    transition: transform 0.3s ease;
+}
+.img-wrapper-catalogo:hover .img-zoom {
+    transform: scale(1.05);
+}
+
+/* Tamaño estándar para las fotos de sugerencias */
+.img-sugerencia {
+    height: 100%; 
+    width: 100%; 
+    max-height: 120px;
 }

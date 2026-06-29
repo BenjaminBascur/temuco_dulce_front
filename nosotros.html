@@ -5,33 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nosotros | Temuco Dulce</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍰</text></svg>">
+    
+    <!-- ESTILOS: Solo Bootstrap y tu CSS Unificado -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        .nav-tabs .nav-link.active {
-            color: #d63384 !important;
-            border-color: #dee2e6 #dee2e6 #fff !important;
-        }
-        .nav-tabs .nav-link {
-            color: #6c757d !important;
-        }
-        .burbuja-saludo {
-            transition: opacity 0.5s ease-in-out;
-        }
-        .link-social {
-            transition: color 0.3s ease, transform 0.3s ease;
-            display: inline-block;
-        }
-        .link-social:hover { transform: translateY(-3px); }
-        .icon-facebook:hover { color: #1877F2 !important; }
-        .icon-instagram:hover { color: #E4405F !important; }
-        .icon-github:hover { color: #333 !important; }
-    </style>
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
-        <!-- Preloader -->
+    <!-- Preloader -->
     <div id="preloader" class="preloader">
         <div class="text-center">
             <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
@@ -44,7 +26,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-reposteria shadow py-3">
             <div class="container">
                 <a class="navbar-brand fw-bold fs-3 text-white" href="index.html">🍰 Temuco Dulce</a>
-                <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion">
+                <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion" aria-label="Abrir menú de navegación">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -63,7 +45,7 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown" id="menuUsuario" style="display: none;">
-                            <a class="nav-link dropdown-toggle text-white fw-bold d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle text-white fw-bold d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-label="Menú de usuario">
                                 <i class="bi bi-person-circle fs-4 me-2"></i> <span id="nombreNav">Usuario</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
@@ -86,6 +68,7 @@
 
     <main class="flex-grow-1">
         <!-- HEADER NOSOTROS -->
+        <!-- Nota: Para fondos estáticos super grandes como este se acepta el style en línea para no contaminar el CSS global, o pasarlo a una clase -->
         <div class="bg-primary-subtle py-5 text-center" style="background-image: url('https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center; position: relative;">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6);"></div>
             <div class="container position-relative z-1 py-5">
@@ -97,7 +80,8 @@
         <div class="container my-5">
             <div class="row align-items-center mb-5 pb-4">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="https://images.unsplash.com/photo-1483695028939-5bb13f8648b0?auto=format&fit=crop&w=800&q=80" class="img-fluid rounded-4 shadow-sm" alt="Ingredientes locales">
+                    <!-- APLICANDO LAZY LOADING -->
+                    <img src="https://images.unsplash.com/photo-1483695028939-5bb13f8648b0?auto=format&fit=crop&w=800&q=80" loading="lazy" class="img-fluid rounded-4 shadow-sm" alt="Ingredientes frescos de repostería sobre una mesa">
                 </div>
                 <div class="col-lg-6 px-lg-5">
                     <h2 class="text-titulos fw-bold mb-4">Desde la Araucanía para ti</h2>
@@ -131,7 +115,7 @@
         </div>
     </main>
 
-    <!-- MODAL DE PAGO / LOGIN Y REGISTRO (CON BOTON "VER CONTRASEÑA") -->
+    <!-- MODAL DE PAGO / LOGIN Y REGISTRO -->
     <div class="modal fade" id="modalPago" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 shadow border-0">
@@ -140,10 +124,11 @@
                         <li class="nav-item"><button class="nav-link active fw-bold px-4" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-panel" type="button" role="tab">Ingresar</button></li>
                         <li class="nav-item"><button class="nav-link fw-bold px-4" id="registro-tab" data-bs-toggle="tab" data-bs-target="#registro-panel" type="button" role="tab">Crear Cuenta</button></li>
                     </ul>
-                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Cerrar modal de acceso"></button>
                 </div>
                 <div class="modal-body p-4 pt-4">
                     <div class="tab-content" id="authTabsContent">
+                        
                         <div class="tab-pane fade show active" id="login-panel" role="tabpanel">
                             <form id="formLogin" class="needs-validation" novalidate>
                                 <div class="mb-3"><label class="form-label small fw-bold text-muted">Correo Electrónico</label><input type="email" class="form-control" required></div>
@@ -151,18 +136,28 @@
                                 <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">Entrar a mi cuenta</button>
                             </form>
                         </div>
+                        
                         <div class="tab-pane fade" id="registro-panel" role="tabpanel">
                             <form id="formRegistro" class="needs-validation" novalidate>
                                 <div class="row">
-                                    <div class="col-md-6 mb-3"><label class="form-label small fw-bold text-muted">Nombre</label><input type="text" id="regNombre" class="form-control" required></div>
-                                    <div class="col-md-6 mb-3"><label class="form-label small fw-bold text-muted">Apellidos</label><input type="text" id="regApellido" class="form-control" required></div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label small fw-bold text-muted">Nombre</label>
+                                        <input type="text" id="regNombre" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label small fw-bold text-muted">Apellidos</label>
+                                        <input type="text" id="regApellido" class="form-control" required>
+                                    </div>
                                 </div>
-                                <div class="mb-3"><label class="form-label small fw-bold text-muted">Correo Electrónico</label><input type="email" class="form-control" id="regEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required></div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="regEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                                </div>
                                 <div class="mb-4">
                                     <label class="form-label small fw-bold text-muted">Contraseña</label>
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="regPassword" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8}$" minlength="8" maxlength="8" required>
-                                        <button class="btn btn-outline-secondary" type="button" id="btnVerPassword" title="Mostrar/Ocultar contraseña">
+                                        <button class="btn btn-outline-secondary" type="button" id="btnVerPassword" aria-label="Mostrar u ocultar contraseña">
                                             <i class="bi bi-eye" id="iconoVerPassword"></i>
                                         </button>
                                         <div class="invalid-feedback mt-1 w-100" style="font-size: 0.75rem;">Debe tener 1 Mayúscula, 1 Número, 1 Símbolo y exactamente 8 caracteres.</div>
@@ -175,6 +170,7 @@
                                 <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">Crear Cuenta</button>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -187,13 +183,13 @@
             <div class="modal-content rounded-4 border-0 shadow-lg">
                 <div class="modal-header bg-primary-subtle border-0">
                     <h5 class="modal-title text-titulos fw-bold text-primary"><i class="bi bi-file-earmark-text me-2"></i>Términos y Condiciones</h5>
-                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modalPago"></button>
+                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modalPago" aria-label="Cerrar términos"></button>
                 </div>
                 <div class="modal-body p-4 text-muted small lh-lg">
                     <h6 class="fw-bold text-dark">1. Introducción</h6>
                     <p>Bienvenido a Temuco Dulce. Al registrarse, acepta los términos de compra de nuestra repostería artesanal.</p>
                     <h6 class="fw-bold text-dark mt-3">2. Productos, Alérgenos y Contaminación Cruzada</h6>
-                    <p>Nos tomamos muy en serio las restricciones alimentarias. Contamos con áreas de producción y utensilios exclusivos para nuestras líneas <strong>Sin Gluten</strong> y <strong>Sin Azúcar</strong>, asegurando procesos seguros y libres de contaminación cruzada para el cuidado de su salud.</p>
+                    <p>Nos tomamos muy en serio las restricciones alimentarias. Contamos con áreas de producción y utensilios exclusivos para nuestras líneas <strong>Sin Gluten</strong> y <strong>Sin Azúcar</strong>.</p>
                     <h6 class="fw-bold text-dark mt-3">3. Envíos</h6>
                     <p>Despachos exclusivos en el radio urbano de Temuco y sectores céntricos de Padre Las Casas.</p>
                 </div>
@@ -204,106 +200,35 @@
         </div>
     </div>
 
-   <!-- FOOTER CON REDES SOCIALES -->
-<footer class="py-5 mt-auto bg-white border-top">
-    <div class="container text-center">
-        <h5 class="mb-3 text-titulos">Temuco Dulce</h5>
-        <p class="mb-1">© 2026 Benjamín Bascur - Todos los derechos reservados.</p>
-        <p class="mb-4 small text-muted">Proyecto formativo Full Stack Java Trainee.</p>
-        
-        <div class="mt-4">
-            <p class="mb-3 text-muted fw-bold">No olvides de seguirnos en redes sociales:</p>
-            <div class="fs-1">
-                <a href="https://facebook.com" target="_blank" class="link-social icon-facebook me-4 text-secondary">
-                    <i class="bi bi-facebook"></i>
-                </a>
-                <a href="https://instagram.com" target="_blank" class="link-social icon-instagram me-4 text-secondary">
-                    <i class="bi bi-instagram"></i>
-                </a>
-                <a href="https://github.com" target="_blank" class="link-social icon-github text-secondary" title="Nuestro Repositorio">
-                    <i class="bi bi-github"></i>
-                </a>
+    <!-- FOOTER -->
+    <footer class="py-5 mt-auto bg-white border-top">
+        <div class="container text-center">
+            <h5 class="mb-3 text-titulos">Temuco Dulce</h5>
+            <p class="mb-1">© 2026 Benjamín Bascur - Todos los derechos reservados.</p>
+            <p class="mb-4 small text-muted">Proyecto formativo Full Stack Java Trainee.</p>
+            
+            <div class="mt-4">
+                <p class="mb-3 text-muted fw-bold">No olvides de seguirnos en redes sociales:</p>
+                <div class="fs-1">
+                    <a href="https://facebook.com" target="_blank" aria-label="Visitar Facebook" class="link-social icon-facebook me-4 text-secondary"><i class="bi bi-facebook"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Visitar Instagram" class="link-social icon-instagram me-4 text-secondary"><i class="bi bi-instagram"></i></a>
+                    <a href="https://github.com/BenjaminBascur" target="_blank" aria-label="Visitar GitHub" class="link-social icon-github text-secondary"><i class="bi bi-github"></i></a>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
-    <!-- MASCOTITA Y WHATSAPP -->
-    <div class="mascota-container" id="mascotaDulce">
+    <!-- MASCOTA Y WHATSAPP -->
+    <div class="mascota-container" id="mascotaDulce" aria-label="Mascota pastelito animada">
         <div class="burbuja-saludo" id="textoMascota">¡Hola! ¿Antojo de algo rico?</div>
-        <div class="pastelito-emoji">🍰</div>
+        <div class="pastelito-emoji" aria-hidden="true">🍰</div>
     </div>
-    <a href="https://wa.me/56912345678" target="_blank" class="btn-whatsapp"><i class="bi bi-whatsapp"></i></a>
+    <a href="https://wa.me/56912345678" target="_blank" aria-label="Contactar por WhatsApp" class="btn-whatsapp"><i class="bi bi-whatsapp"></i></a>
 
-    <!-- SCRIPTS -->
+    <!-- SCRIPTS EXTERNOS EXCLUSIVAMENTE -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/js/app.js"></script>
     
-    <script>
-      // Lógica de Mascota Rotativa (preguntar profesor)
-                    const frasesMascota = [
-                        "¡Hola! ¿Antojo de algo rico?",
-                        "Recuerda llevar algo dulcecito",
-                        "Acabemos con ese antojo",
-                        "Si no te decides, llévatelos todos",
-                        "La vida es corta, ¡come dulce!",
-                        "Mmmm de-li-ci-o-so",
-                        "Keep Calm and Cómeme"
-                    ];
-
-                    let indiceFrase = 0;
-                    const textoMascota = document.getElementById('textoMascota');
-
-                    if (textoMascota) {
-                        setInterval(() => {
-                            // Efecto suave de desvanecimiento
-                            textoMascota.style.opacity = 0; 
-                            
-                            setTimeout(() => {
-                                indiceFrase = (indiceFrase + 1) % frasesMascota.length;
-                                textoMascota.innerText = frasesMascota[indiceFrase];
-                                textoMascota.style.opacity = 1; 
-                            }, 500);
-                        }, 3500); // Cambia cada 3.5 segundos
-                    }
-
-        // Lógica Mostrar Contraseña
-        const btnVerPassword = document.getElementById('btnVerPassword');
-        const inputPassword = document.getElementById('regPassword');
-        const iconoVerPassword = document.getElementById('iconoVerPassword');
-        if(btnVerPassword && inputPassword) {
-            btnVerPassword.addEventListener('click', () => {
-                if (inputPassword.type === 'password') {
-                    inputPassword.type = 'text';
-                    iconoVerPassword.classList.replace('bi-eye', 'bi-eye-slash');
-                } else {
-                    inputPassword.type = 'password';
-                    iconoVerPassword.classList.replace('bi-eye-slash', 'bi-eye');
-                }
-            });
-        }
-
-        // Autenticación General
-        const formLogin = document.getElementById('formLogin');
-        if(formLogin) {
-            formLogin.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (!formLogin.checkValidity()) { e.stopPropagation(); formLogin.classList.add('was-validated'); return; }
-                Swal.fire({ icon: 'success', title: '¡Bienvenido!', showConfirmButton: false, timer: 1500 }).then(() => { location.reload(); });
-            });
-        }
-
-        const formRegistro = document.getElementById('formRegistro');
-        if(formRegistro) {
-            formRegistro.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (!formRegistro.checkValidity()) { e.stopPropagation(); formRegistro.classList.add('was-validated'); return; }
-                const nombreStr = document.getElementById('regNombre').value + " " + document.getElementById('regApellido').value;
-                localStorage.setItem('usuarioTemucoDulce', JSON.stringify({ nombre: nombreStr, email: document.getElementById('regEmail').value }));
-                Swal.fire({ icon: 'success', title: `¡Cuenta Creada, ${document.getElementById('regNombre').value}!`, showConfirmButton: false, timer: 2000 }).then(() => { location.reload(); });
-            });
-        }
-    </script>
 </body>
 </html>
